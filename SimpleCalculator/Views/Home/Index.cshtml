@@ -1,27 +1,53 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model SimpleCalculator.Models.ViewModels.SimpleCalcVM
+
+@{
+    ViewData["Title"] = "Simple Calculation";
 }
 
-<div class="row col-md-12">
-    <h3>Simple Calculation</h3>
+<form asp-controller="Home" asp-action="AddToCalc" method="post">
     <div class="row col-md-12">
-        <div class="form-group col-md-3">
-            <label class="">Value A</label>
-            <input class="form-control" />
-        </div>
-        <div class="form-group col-md-2">
-            <label>Select Operation</label>
-            <select class="form-control">
-                <option value="0"> -- Select Operation --</option>
-            </select>
-        </div>
-        <div class="form-group col-md-3">
-            <label>Value B</label>
-            <input class="form-control" />
-        </div>
-        <div class="form-group col-md-3">
-            <br />
-            <button class="btn btn-outline-success">Calculate</button>
+        <h3>Simple Calculation</h3>
+        <div class="row col-md-12">
+            <div class="form-group col-md-3">
+                <label class="">Register</label>
+                <select class="form-control" asp-items="Model.Registers" asp-for="SelectedRegister">
+                    <option value="-1" selected> -- Select --</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label>Select Operation</label>
+                <select class="form-control" asp-items="Model.Operations" asp-for="SelectedOperation">
+                    <option value="-1" selected> -- Select --</option>
+                </select>
+            </div>
+            <div class="form-group col-md-1">
+                <label>Value</label>
+                <input class="form-control" asp-for="Value" />
+                <span asp-validation-for="Value"></span>
+            </div>
+            <div class="form-group col-md-3" style="margin-top:10px">
+                <br />
+                <button class="btn btn-sm btn-outline-success" onclick="addCalc()">Calculate</button>
+            </div>
+            <div id="calcContainer" class="col-md-3 hide bg-light">
+                <label id="calcResult">Ingimar</label>
+                <button class="btn btn-block btn-sm btn-success align-bottom">Result</button>
+            </div>
         </div>
     </div>
-</div>
+</form>
+
+<script>
+    function addCalc() {
+        alert(10);
+        //let _hidden = "hide";
+
+        //let _container = document.getElementById('calcContainer');
+        let _sum = $("#calcResult");
+        alert(_sum.val);
+        //_sum.val(23);
+
+        if (_container.classList.contains(_hidden)) { _container.classList.remove(_hidden); }
+        
+    };
+</script>

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using SimpleCalculator.Helpers.Data;
 using SimpleCalculator.Models;
+using SimpleCalculator.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,10 +21,24 @@ namespace SimpleCalculator.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var _registers = await InitialCalcData.CreateRegisters();
+            var _operations = await InitialCalcData.CreateOperations();
+            var _model = new SimpleCalcVM
+            {
+                Registers = new SelectList(_registers, "Id", "RegisterName"),
+                Operations = new SelectList(_operations.Where(x => x.IsActive), "Id", "Sign")
+            };
+
             _logger.LogTrace("Application started");
-            return View();
+            ModelState.AddModelError("Me", "Testing Error");
+            return View(_model);
+        }
+
+        public async Task<IActionResult> AddToCalc(SimpleCalcVM model)
+        {
+            return RedirectToAction(nameof(Index)); 
         }
 
         public IActionResult Privacy()
