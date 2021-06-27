@@ -1,53 +1,65 @@
 ﻿@model SimpleCalculator.Models.ViewModels.SimpleCalcVM
 
 @{
-    ViewData["Title"] = "Simple Calculation";
+    ViewData["Title"] = "Spectra";
 }
 
 <form asp-controller="Home" asp-action="AddToCalc" method="post">
     <div class="row col-md-12">
-        <h3>Simple Calculation</h3>
-        <div class="row col-md-12">
-            <div class="form-group col-md-3">
-                <label class="">Register</label>
-                <select class="form-control" asp-items="Model.Registers" asp-for="SelectedRegister">
-                    <option value="-1" selected> -- Select --</option>
-                </select>
+        <div class="col-md-8 col-sm-12">
+            <div class="row col-md-12">
+                <div class="form-group col-md-8">
+                    <label class="">Select Register</label>
+                    <select class="form-control" asp-items="Model.Registers" asp-for="SelectedRegister">
+                        <option value="" selected> -- Select Register --</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="SelectedRegister"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Select Operation</label>
+                    <select class="form-control" asp-items="Model.Operations" asp-for="SelectedOperation">
+                        <option value="" selected> -- Select --</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="SelectedOperation"></span>
+                </div>
             </div>
-            <div class="form-group col-md-2">
-                <label>Select Operation</label>
-                <select class="form-control" asp-items="Model.Operations" asp-for="SelectedOperation">
-                    <option value="-1" selected> -- Select --</option>
-                </select>
+            <div class="row col-md-12">
+                <div class="form-group col-md-8">
+                    <label class="">Select Register to calculate from</label>
+                    <select id="ddlSecondRegister" class="form-control" onchange="onRegSelect()" asp-items="Model.Registers" asp-for="SecondRegister">
+                        <option value="" selected>-- Select register to add --</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="SecondRegister"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Value</label>
+                    <input id="tbValue" class="form-control" type="number" asp-for="Value" />
+                    <span class="text-danger" asp-validation-for="Value"></span>
+                </div>
             </div>
-            <div class="form-group col-md-1">
-                <label>Value</label>
-                <input class="form-control" asp-for="Value" />
-                <span asp-validation-for="Value"></span>
+            <div class="row col-md-12">
+                <button type="submit" class="btn btn-block btn-outline-success">Submit</button>
             </div>
-            <div class="form-group col-md-3" style="margin-top:10px">
-                <br />
-                <button class="btn btn-sm btn-outline-success" onclick="addCalc()">Calculate</button>
-            </div>
-            <div id="calcContainer" class="col-md-3 hide bg-light">
-                <label id="calcResult">Ingimar</label>
-                <button class="btn btn-block btn-sm btn-success align-bottom">Result</button>
-            </div>
+        </div>
+        <div class="col-md-4">
+            @* Displays result from last operation *@
+            @TempData["regValue"]
         </div>
     </div>
 </form>
 
 <script>
-    function addCalc() {
-        alert(10);
-        //let _hidden = "hide";
+    //Disables value input and set's it to 0 if a second register is selected
+    function onRegSelect() {
+        let _valueBox = $("#tbValue");
+        let _secondRegister = $("#ddlSecondRegister").children("option:selected").text();
 
-        //let _container = document.getElementById('calcContainer');
-        let _sum = $("#calcResult");
-        alert(_sum.val);
-        //_sum.val(23);
-
-        if (_container.classList.contains(_hidden)) { _container.classList.remove(_hidden); }
-        
+        if (_secondRegister == "-- Select register to add --") {
+            _valueBox.prop("readonly", false);
+        }
+        else {
+            _valueBox.prop("readonly", true);
+            _valueBox.val(0);
+        }
     };
 </script>

@@ -1,0 +1,18 @@
+﻿@model SimpleCalculator.Models.ViewModels.PrintVM
+
+    <form asp-controller="Print" asp-action="PrintRegister">
+        <div class="col-md-12 col-sm-12">
+            <div class="row col-md-12">
+                <div class="form-group col-md-12">
+                    <h5>
+                        @TempData["regValue"]
+                    </h5>
+                    <select class="form-control" asp-items="Model.Registers" asp-for="SelectedRegister">
+                        <option value="" selected>-- Select register to print --</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="SelectedRegister"></span>
+                </div>
+                <button class="btn btn-block btn-sm btn-outline-primary align-bottom">Print Register</button>
+            </div>
+        </div>
+    </form>

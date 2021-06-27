@@ -1,24 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SimpleCalculator.Models.ViewModels
 {
     public class SimpleCalcVM
     {
+        public string Id { get; set; }
         public IEnumerable<SelectListItem> Registers { get; set; }
+
         public IEnumerable<SelectListItem> Operations { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Register is required")]
         public string SelectedRegister { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Operation is requred")]
         public string SelectedOperation { get; set; }
 
-        [Required]
+        public string SecondRegister { get; set; }
+
+        [Required(ErrorMessage = "Value is required")]
         public float Value { get; set; }
     }
 }
